@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Upload for Prediction</title>
+    <style>
+        body {
+        background-image: url('https://img.etimg.com/thumb/width-1200,height-900,imgsize-13390,resizemode-75,msid-104265874/opinion/bliss-of-everyday-life/driving-on-weekends.jpg');
+        }
+        img {
+        border-radius: 15px;
+        border: 5px solid #555;
+        }
+    </style>
+</head>
+<body>
+    <center>
+    <h1>Upload an Image for Prediction</h1>
+    <form action="/predict" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <button type="submit">Upload & Predict</button>
+        
+        <div>
+            {% if prediction %}
+                <h2>Prediction: {{ prediction }} </h2>
+                
+                <img src="static\{{ image_url }}" alt="Uploaded Image">
+            {% endif %}
+        </div>
+    </form>
+    </center>
+</body>
+</html>
+S
