@@ -44,6 +44,16 @@ def trigger_audio_alert(text):
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+def classify_risk(prediction, alert_thresholds):
+    if prediction == "0":
+        return "safe", "Safe driving"
+    score = alert_thresholds[prediction]
+    if score < 0.2:
+        return "low", "Low priority"
+    if score < 0.3:
+        return "medium", "Medium priority"
+    return "high", "High priority"
+
 @app.route('/')
 def home():
     return render_template('home.html')
@@ -187,9 +197,16 @@ def predict():
                         time.sleep(1)
                 
         #Predicted Distracted Driver category
+        risk, risk_label = classify_risk(prediction, alert_thresholds)
         prediction=distraction_categories[prediction]
-        
-        return render_template('index.html', prediction=prediction, image_url=filename)
+
+        return render_template(
+            'index.html',
+            prediction=prediction,
+            image_url=filename,
+            risk=risk,
+            risk_label=risk_label,
+        )
     else:
         return render_template('index.html', prediction="Invalid file format.")
 

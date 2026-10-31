@@ -90,6 +90,16 @@ class DistractionDetector:
     def get_distraction_category(self, prediction):
         return self.distraction_categories[prediction]
 
+    def get_risk(self, prediction):
+        if prediction == "0":
+            return "safe", "Safe driving"
+        score = self.alert_thresholds[prediction]
+        if score < 0.2:
+            return "low", "Low priority"
+        if score < 0.3:
+            return "medium", "Medium priority"
+        return "high", "High priority"
+
     def handle_alert(self, prediction):
         detected_category = self.distraction_categories[prediction]
         alert_message = f"Warning: Detected {detected_category}! Please focus on driving."
@@ -152,7 +162,14 @@ def predict():
             distraction_detector.handle_alert(prediction)
 
         prediction_category = distraction_detector.get_distraction_category(prediction)
-        return render_template('index.html', prediction=prediction_category, image_url=filename)
+        risk, risk_label = distraction_detector.get_risk(prediction)
+        return render_template(
+            'index.html',
+            prediction=prediction_category,
+            image_url=filename,
+            risk=risk,
+            risk_label=risk_label,
+        )
     else:
         return render_template('index.html', prediction="Invalid file format.")
 

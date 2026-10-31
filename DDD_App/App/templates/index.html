@@ -3,33 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Upload for Prediction</title>
-    <style>
-        body {
-        background-image: url('https://img.etimg.com/thumb/width-1200,height-900,imgsize-13390,resizemode-75,msid-104265874/opinion/bliss-of-everyday-life/driving-on-weekends.jpg');
-        }
-        img {
-        border-radius: 15px;
-        border: 5px solid #555;
-        }
-    </style>
+    <title>Analyze a photo</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
-    <center>
-    <h1>Upload an Image for Prediction</h1>
-    <form action="/predict" method="post" enctype="multipart/form-data">
-        <input type="file" name="file">
-        <button type="submit">Upload & Predict</button>
-        
-        <div>
-            {% if prediction %}
-                <h2>Prediction: {{ prediction }} </h2>
-                
-                <img src="static\{{ image_url }}" alt="Uploaded Image">
+    <div class="page">
+        <header class="topbar">
+            <a class="brand" href="/">Distracted Driver Detection</a>
+            <nav class="nav">
+                <a href="/">Home</a>
+                <a href="/home">Analyze</a>
+            </nav>
+        </header>
+        <main class="content">
+            {% if prediction and not image_url %}
+            <p class="banner" role="alert">{{ prediction }}</p>
             {% endif %}
-        </div>
-    </form>
-    </center>
+
+            <section class="card">
+                <h1>Analyze a photo</h1>
+                <p class="hint">PNG, JPG, or JPEG.</p>
+                <form id="upload-form" action="/predict" method="post" enctype="multipart/form-data">
+                    <label class="dropzone" id="dropzone">
+                        <input id="file" type="file" name="file" accept=".png,.jpg,.jpeg,image/png,image/jpeg">
+                        <span class="dropzone-copy" id="dropzone-copy">
+                            <span class="dropzone-title">Drop a photo here</span>
+                            <span class="dropzone-sub">or click to browse</span>
+                        </span>
+                        <img id="preview" class="preview" alt="" hidden>
+                    </label>
+                    <p class="filename" id="filename" hidden></p>
+                    <button class="button" id="submit" type="submit" disabled>Analyze</button>
+                </form>
+            </section>
+
+            {% if image_url %}
+            <section class="card result">
+                <p class="pill pill-{{ risk }}">{{ risk_label }}</p>
+                <h2>{{ prediction | capitalize }}</h2>
+                <img class="result-image" src="/static/{{ image_url }}" alt="Uploaded cabin photo">
+            </section>
+            {% endif %}
+        </main>
+    </div>
+    <script src="/static/js/upload.js"></script>
 </body>
 </html>
-S

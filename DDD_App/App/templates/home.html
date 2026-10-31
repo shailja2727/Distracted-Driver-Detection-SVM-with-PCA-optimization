@@ -4,20 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Distracted Driver Detection</title>
-    <link rel="stylesheet" href="static/css/styles.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Distracted Driver Detection</h1>
-            <p>Ensuring safety by detecting distracted driving behaviors.</p>
+    <div class="page">
+        <header class="topbar">
+            <a class="brand" href="/">Distracted Driver Detection</a>
+            <nav class="nav">
+                <a href="/">Home</a>
+                <a href="/home">Analyze</a>
+            </nav>
         </header>
-        <main>
-            <button onclick="window.location.href='/home'">Get Started</button>
+        <main class="content">
+            <section class="card">
+                <p class="eyebrow">Driver safety</p>
+                <h1>Distracted Driver Detection</h1>
+                <p class="lede">Classify a cabin photo and warn the driver according to how risky the behavior is.</p>
+                <ul class="points">
+                    <li>Ten behavior classes, from safe driving to phone use and reaching behind.</li>
+                    <li>A spoken warning plus a priority alarm when the driver is distracted.</li>
+                    <li>A linear SVM trained after PCA on the cabin image.</li>
+                </ul>
+                <a class="button" href="/home">Analyze a photo</a>
+            </section>
+            <p class="footer-note">Upload one cabin photo at a time.</p>
         </main>
-        <footer>
-            <p>&copy; 2024 Distracted Driver Detection. All rights reserved.</p>
-        </footer>
     </div>
 </body>
 </html>
